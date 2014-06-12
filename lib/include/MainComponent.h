@@ -2,26 +2,28 @@
 #define __MAINCOMPONENT_H__
 
 #include "Window.h"
+#ifdef _DEBUG
+#define DEBUG_OUTPUT printf
+#else
+#define DEBUG_OUTPUT
+#endif
 
-namespace Blaze
+namespace blaze
 {
-
-#define FRAME_CAP 5000;
 
 class MainComponent
 {
 public:
-	MainComponent(Window* window);
+	MainComponent();
 	~MainComponent();
+	void InitializeWindow(int width, int height, const char* title);
 	void Start();
 	void Stop();
-
 
 private:
 	void run();
 	void render();
 	void cleanUp();
-	double getTime();
 
 private:
 	Window* _window;

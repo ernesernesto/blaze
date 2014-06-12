@@ -5,13 +5,12 @@ static const int WIDTH = 800;
 static const int HEIGHT = 600;
 static const char* TITLE = "Engine 3D";
 
-using namespace Blaze;
+using namespace blaze;
 
 int main( void )
 {
-	auto window = Window::InitializeWindow(WIDTH, HEIGHT, TITLE);
-
-	MainComponent game = MainComponent(window);
+	MainComponent game = MainComponent();
+	game.InitializeWindow(WIDTH, HEIGHT, TITLE);
 	game.Start();
 
 	return 0;

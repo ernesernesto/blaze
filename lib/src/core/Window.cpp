@@ -7,23 +7,23 @@
 
 #include "Window.h"
 
-using namespace Blaze;
+using namespace blaze;
 
 Window::Window(int width, int height, const char* title)
 	: _width(width)
 	, _height(height)
 	, _title(title)
-	, _window(nullptr)
+	, _glfwWindow(nullptr)
 {
 }
 
 Window::~Window()
 {
-	delete _window;
+	delete _glfwWindow;
 	glfwTerminate();
 }
 
-Window* Window::InitializeWindow(int width, int height, const char* title)
+Window* Window::Create(int width, int height, const char* title)
 {
 	if (!glfwInit())
 	{
@@ -42,13 +42,13 @@ Window* Window::InitializeWindow(int width, int height, const char* title)
 
 void Window::initialize()
 {
-	_window = glfwCreateWindow(_width, _height, _title, NULL, NULL);
-	if (_window == NULL){
+	_glfwWindow = glfwCreateWindow(_width, _height, _title, NULL, NULL);
+	if (_glfwWindow == NULL){
 		fprintf(stderr, "Failed to open GLFW window.\n");
 		glfwTerminate();
 		return;
 	}
-	glfwMakeContextCurrent(_window);
+	glfwMakeContextCurrent(_glfwWindow);
 
 	if (glewInit() != GLEW_OK) {
 		fprintf(stderr, "Failed to initialize GLEW\n");
@@ -58,13 +58,13 @@ void Window::initialize()
 
 void Window::Render()
 {
-	glfwSwapBuffers(_window);
+	glfwSwapBuffers(_glfwWindow);
 	glfwPollEvents();
 }
 
 bool Window::IsCloseRequested()
 {
-	return (glfwGetKey(_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(_window) == 0 );
+	return (glfwGetKey(_glfwWindow, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(_glfwWindow) == 0 );
 }
 
 int Window::GetWidth()
@@ -81,3 +81,4 @@ const char* Window::GetTitle()
 {
 	return _title;
 }
+

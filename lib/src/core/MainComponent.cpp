@@ -4,16 +4,21 @@
 
 #include "MainComponent.h"
 
-using namespace Blaze;
+using namespace blaze;
 
-MainComponent::MainComponent(Window* window)
-	: _window(window)
-	, _isRunning(false)
+MainComponent::MainComponent()
+	: _window(nullptr)
+	,_isRunning(false) 
 {
 }
 
 MainComponent::~MainComponent()
 {
+}
+
+void MainComponent::InitializeWindow(int width, int height, const char* title)
+{
+	_window = Window::Create(width, height, title);
 }
 
 void MainComponent::Start()
@@ -63,7 +68,7 @@ void MainComponent::run()
 
 			if(frameCounter >= 1)
 			{
-				printf("%d\n", frames);
+				DEBUG_OUTPUT("%d\n", frames);
 				frames = 0;
 				frameCounter = 0;
 			}
