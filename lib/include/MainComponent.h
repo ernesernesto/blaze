@@ -1,7 +1,7 @@
 #ifndef __MAINCOMPONENT_H__
 #define __MAINCOMPONENT_H__
 
-#include "Window.h"
+#include "Platform.h"
 #ifdef _DEBUG
 #define DEBUG_OUTPUT printf
 #else
@@ -16,7 +16,7 @@ class MainComponent
 public:
 	MainComponent();
 	~MainComponent();
-	void InitializeWindow(int width, int height, const char* title);
+	void Initialize(int width, int height, const char* title);
 	void Start();
 	void Stop();
 
@@ -26,7 +26,7 @@ private:
 	void cleanUp();
 
 private:
-	Window* _window;
+	Platform* _platform;
 	bool _isRunning;
 };
 

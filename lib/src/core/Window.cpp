@@ -1,84 +1,89 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Use glew static lib
-#define GLEW_STATIC
-#include <GL/glew.h>
-
 #include "Window.h"
+
+bool _win32_isExitRequested = false;
+namespace
+{
+
+LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	LRESULT result = 0;
+	switch(message)
+	{
+		case WM_KEYDOWN:
+		{
+			//inputHandler->OnKeyDown((unsigned int)wParam);
+			break;
+		}
+		case WM_KEYUP:
+		{
+			//inputHandler->OnKeyUp((unsigned int)wParam);
+			break;
+		}
+		case WM_CLOSE:
+		{
+			_win32_isExitRequested = true;
+			PostQuitMessage(0);
+			break;
+		}
+		default:
+		{
+			result = DefWindowProc(hwnd, message, wParam, lParam);	
+			break;
+		}
+	}
+	return result;
+}
+
+}
 
 using namespace blaze;
 
-Window::Window(int width, int height, const char* title)
-	: _width(width)
-	, _height(height)
-	, _title(title)
-	, _glfwWindow(nullptr)
+Window::Window(HWND handle)
+	: _windowHandle(handle)
 {
 }
 
 Window::~Window()
 {
-	delete _glfwWindow;
-	glfwTerminate();
 }
 
 Window* Window::Create(int width, int height, const char* title)
 {
-	if (!glfwInit())
+	HWND handle = 0;
+	WNDCLASS windowClass;
+	windowClass.style = CS_HREDRAW | CS_VREDRAW;
+	windowClass.lpfnWndProc = WndProc;
+	windowClass.cbClsExtra = 0;
+    windowClass.cbWndExtra = 0;
+    windowClass.hInstance = 0;
+    windowClass.hIcon = 0;
+	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	windowClass.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
+	windowClass.lpszClassName = title;
+    windowClass.lpszMenuName = 0;
+
+	if(!RegisterClass(&windowClass))
 	{
-		fprintf(stderr, "Failed to initialize GLFW\n");
-		return false;
+		MessageBox(0, "Window registration failed!", "Error!", MB_OK | MB_ICONEXCLAMATION);
+		return NULL;
 	}
-	glfwWindowHint(GLFW_SAMPLES, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
-	auto window = new Window(width, height, title);
-	window->initialize();
+	handle = CreateWindow(windowClass.lpszClassName, windowClass.lpszClassName, WS_VISIBLE, 
+		CW_USEDEFAULT, CW_USEDEFAULT, width, height, NULL, NULL, windowClass.hInstance, NULL);
 
+	if(!handle)
+	{
+		MessageBox(0, "Window registration failed!", "Error!", MB_OK | MB_ICONEXCLAMATION);
+		return NULL;
+	}
+
+	auto window = new Window(handle);
 	return window;
-}
-
-void Window::initialize()
-{
-	_glfwWindow = glfwCreateWindow(_width, _height, _title, NULL, NULL);
-	if (_glfwWindow == NULL){
-		fprintf(stderr, "Failed to open GLFW window.\n");
-		glfwTerminate();
-		return;
-	}
-	glfwMakeContextCurrent(_glfwWindow);
-
-	if (glewInit() != GLEW_OK) {
-		fprintf(stderr, "Failed to initialize GLEW\n");
-		return;
-	}
 }
 
 void Window::Render()
 {
-	glfwSwapBuffers(_glfwWindow);
-	glfwPollEvents();
 }
-
-bool Window::IsCloseRequested()
-{
-	return (glfwGetKey(_glfwWindow, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(_glfwWindow) == 0 );
-}
-
-int Window::GetWidth()
-{
-	return _width;
-}
-
-int Window::GetHeight()
-{
-	return _height;
-}
-
-const char* Window::GetTitle()
-{
-	return _title;
-}
-

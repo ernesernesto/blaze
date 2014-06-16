@@ -1,9 +1,7 @@
 #ifndef __WINDOW_H__
 #define __WINDOW_H__
 
-#include <memory>
-
-#include <GLFW/glfw3.h>
+#include <Windows.h>
 
 namespace blaze
 { 
@@ -22,13 +20,10 @@ public:
 	const char* GetTitle();
 
 private:
-	Window(int width, int height, const char* title);
+	Window(HWND handle);
 	void initialize();
 private:
-	int _width;
-	int _height;
-	const char* _title;
-	GLFWwindow* _glfwWindow;
+	HWND _windowHandle;
 };
 
 }

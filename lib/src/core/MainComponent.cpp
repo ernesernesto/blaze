@@ -7,8 +7,7 @@
 using namespace blaze;
 
 MainComponent::MainComponent()
-	: _window(nullptr)
-	,_isRunning(false) 
+	: _isRunning(false) 
 {
 }
 
@@ -16,9 +15,9 @@ MainComponent::~MainComponent()
 {
 }
 
-void MainComponent::InitializeWindow(int width, int height, const char* title)
+void MainComponent::Initialize(int width, int height, const char* title)
 {
-	_window = Window::Create(width, height, title);
+	_platform = Platform::Initialize(width, height, title);
 }
 
 void MainComponent::Start()
@@ -58,13 +57,14 @@ void MainComponent::run()
 			needRender = true;
 			lag -= frameTime;
 			
-			if(!_window->IsCloseRequested())
+			if(_platform->IsExitRequested())
 				Stop();
 
+			_platform->OnPreFrame();
 			//TODO UPDATE GAME
 			//game.input
 			//game.update()
-
+			_platform->OnPostFrame();
 
 			if(frameCounter >= 1)
 			{
@@ -93,10 +93,10 @@ void MainComponent::run()
 void MainComponent::render()
 {
 	//game.render
-	_window->Render();
+	_platform->Render();
 }
 
 void MainComponent::cleanUp()
 {
-	delete _window;
+	//delete _window;
 }

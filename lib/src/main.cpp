@@ -10,7 +10,7 @@ using namespace blaze;
 int main( void )
 {
 	MainComponent game = MainComponent();
-	game.InitializeWindow(WIDTH, HEIGHT, TITLE);
+	game.Initialize(WIDTH, HEIGHT, TITLE);
 	game.Start();
 
 	return 0;
