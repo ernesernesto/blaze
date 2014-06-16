@@ -1,6 +1,6 @@
-#include <Windows.h>
 #include <iostream>
 
+#include "Keys.h"
 #include "Game.h"
 using namespace blaze;
 
@@ -20,10 +20,10 @@ Game* Game::Initialize(Input* input)
 
 void Game::GetInput()
 {
-	if (_input->IsKeyDown(16 ))
-		printf("Button %d pressed! \n");
-	//if (!_input->IsKeyDown(VK_LSHIFT))
-	//	printf("Button %d released! \n");
+	if (_input->IsKeyDown(Keys::KEY_A))
+		printf("Button %d pressed! \n", Keys::KEY_A);
+	if (_input->IsKeyDown(Keys::KEY_B))
+		printf("Button %d pressed! \n", Keys::KEY_B);
 }
 
 void Game::Update()
