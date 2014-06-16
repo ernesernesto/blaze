@@ -15,9 +15,10 @@ Platform::~Platform()
 {
 }
 
-Platform* Platform::Initialize(int width, int height, const char* title)
+Platform* Platform::Initialize(int width, int height, const char* title, Input* input)
 {
-	auto window = Window::Create(width, height, title);
+	auto window = Window::Initialize(width, height, title, input);
+
 	auto platform = new Platform(window /*device*/);
 	return platform;
 }

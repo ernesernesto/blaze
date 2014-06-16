@@ -17,7 +17,10 @@ MainComponent::~MainComponent()
 
 void MainComponent::Initialize(int width, int height, const char* title)
 {
-	_platform = Platform::Initialize(width, height, title);
+	auto input = Input::Initialize();
+
+	_platform = Platform::Initialize(width, height, title, input);
+	_game = Game::Initialize(input);
 }
 
 void MainComponent::Start()
@@ -61,9 +64,8 @@ void MainComponent::run()
 				Stop();
 
 			_platform->OnPreFrame();
-			//TODO UPDATE GAME
-			//game.input
-			//game.update()
+			_game->GetInput();
+			_game->Update();
 			_platform->OnPostFrame();
 
 			if(frameCounter >= 1)

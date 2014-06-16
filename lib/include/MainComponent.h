@@ -2,6 +2,8 @@
 #define __MAINCOMPONENT_H__
 
 #include "Platform.h"
+#include "Game.h"
+
 #ifdef _DEBUG
 #define DEBUG_OUTPUT printf
 #else
@@ -27,6 +29,7 @@ private:
 
 private:
 	Platform* _platform;
+	Game* _game;
 	bool _isRunning;
 };
 

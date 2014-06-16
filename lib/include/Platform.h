@@ -2,6 +2,8 @@
 #define __PLATFORM_H__
 
 #include "Window.h"
+#include "Input.h"
+
 #ifdef _DEBUG
 #define DEBUG_OUTPUT printf
 #else
@@ -17,7 +19,7 @@ public:
 	Platform(Window* window);
 	~Platform();
 
-	static Platform* Initialize(int widht, int height, const char* title);
+	static Platform* Initialize(int widht, int height, const char* title, Input* input);
 	void OnPreFrame();
 	void OnPostFrame();
 	void Render();
@@ -26,7 +28,6 @@ public:
 
 private:
 	Window* _window;
-	//Input* _input;
 	//DeviceContext* device
 	bool _isRunning;
 };

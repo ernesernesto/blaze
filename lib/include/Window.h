@@ -2,6 +2,7 @@
 #define __WINDOW_H__
 
 #include <Windows.h>
+#include "Input.h"
 
 namespace blaze
 { 
@@ -11,7 +12,7 @@ class Window
 public:
 	~Window();
 
-	static Window* Create(int widht, int height, const char* title);
+	static Window* Initialize(int widht, int height, const char* title, Input* inputHandler);
 	void Render();
 	LRESULT HandleMessage(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -22,13 +23,14 @@ public:
 	bool IsExitRequested();
 
 private:
-	Window(HWND handle);
+	Window(HWND handle, Input* inputHandler);
 	Window(const Window& other);
-	void initialize();
 
 private:
 	HWND _windowHandle;
+	Input* _inputHandler;
 	bool _isExitRequested;
+
 };
 
 }
