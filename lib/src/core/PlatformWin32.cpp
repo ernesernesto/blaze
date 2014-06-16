@@ -43,6 +43,5 @@ void Platform::Render()
 
 bool Platform::IsExitRequested()
 {
-	extern bool _win32_isExitRequested;
-	return _win32_isExitRequested;
+	return _window->IsExitRequested();
 }
