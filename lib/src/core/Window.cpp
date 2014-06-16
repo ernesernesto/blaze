@@ -57,13 +57,13 @@ Window* Window::Create(int width, int height, const char* title)
 	windowClass.style = CS_HREDRAW | CS_VREDRAW;
 	windowClass.lpfnWndProc = WndProc;
 	windowClass.cbClsExtra = 0;
-    windowClass.cbWndExtra = 0;
-    windowClass.hInstance = 0;
-    windowClass.hIcon = 0;
+    	windowClass.cbWndExtra = 0;
+    	windowClass.hInstance = 0;
+    	windowClass.hIcon = 0;
 	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	windowClass.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
 	windowClass.lpszClassName = title;
-    windowClass.lpszMenuName = 0;
+    	windowClass.lpszMenuName = 0;
 
 	if(!RegisterClass(&windowClass))
 	{
