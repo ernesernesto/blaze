@@ -96,6 +96,18 @@ LRESULT Window::HandleMessage(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		_inputHandler->OnKeyUp((unsigned int)wParam);
 		break;
 	}
+	case WM_LBUTTONDOWN:
+	{
+		int x = LOWORD(lParam);
+		int y = HIWORD(lParam);
+		_inputHandler->OnMouseDown(x, y);
+		break;
+	}
+	case WM_LBUTTONUP:
+	{
+		_inputHandler->OnMouseUp();
+		break;
+	}
 	case WM_CLOSE:
 	{
 		_isExitRequested = true;
