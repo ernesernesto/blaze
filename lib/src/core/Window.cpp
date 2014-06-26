@@ -10,8 +10,8 @@ using namespace blaze;
  * Need to redirect WndProc into class method because Input should be handled another place.
  * The simplest and fastest way I could achieve now is using "Global Variables" 
  * as described on http://web.archive.org/web/20051125022758/www.rpi.edu/~pudeyo/articles/wndproc/
- *
 */
+ 
 namespace
 {
 Window* w;
@@ -23,8 +23,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 }
 
-Window::Window(HWND handle, Input* inputHandler)
-	: _windowHandle(handle)
+Window::Window(HWND windowHandle, HDC deviceContext, Input* inputHandler)
+	: _windowHandle(windowHandle)
+	, _deviceContext(deviceContext)
 	, _isExitRequested(false)
 	, _inputHandler(inputHandler)
 {
@@ -32,6 +33,7 @@ Window::Window(HWND handle, Input* inputHandler)
 
 Window::Window(const Window& other)
 	: _windowHandle(other._windowHandle)
+	, _deviceContext(other._deviceContext)
 	, _inputHandler(other._inputHandler)
 	, _isExitRequested(other._isExitRequested)
 {
@@ -43,7 +45,7 @@ Window::~Window()
 
 Window* Window::Initialize(int width, int height, const char* title, Input* inputHandler)
 {
-	HWND handle = 0;
+	HWND windowHandle = 0;
 	WNDCLASS windowClass;
 	windowClass.style = CS_HREDRAW | CS_VREDRAW;
 	windowClass.lpfnWndProc = WndProc;
@@ -62,16 +64,48 @@ Window* Window::Initialize(int width, int height, const char* title, Input* inpu
 		return NULL;
 	}
 
-	handle = CreateWindow(windowClass.lpszClassName, windowClass.lpszClassName, WS_VISIBLE, 
+	windowHandle = CreateWindow(windowClass.lpszClassName, windowClass.lpszClassName, WS_VISIBLE, 
 		CW_USEDEFAULT, CW_USEDEFAULT, width, height, NULL, NULL, windowClass.hInstance, NULL);
 
-	if(!handle)
+	if(!windowHandle)
 	{
 		MessageBox(0, "Window registration failed!", "Error!", MB_OK | MB_ICONEXCLAMATION);
 		return NULL;
 	}
 
-	auto window = new Window(handle, inputHandler);
+	HDC deviceContext = GetDC(windowHandle);
+
+	PIXELFORMATDESCRIPTOR pixelFormatDescriptor = {
+		sizeof(PIXELFORMATDESCRIPTOR),									// Size  
+		1,																// Version  
+		PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER,     // Flags  
+        PFD_TYPE_RGBA,													// The kind of framebuffer, RGBA or pallete
+        32,																// Color depth of frame buffer 
+        0, 0, 0, 0, 0, 0,												// Color bits (ignored)  
+        0,																// No alpha buffer  
+        0,																// Alpha bits (ignored)  
+        0,																// No accumulation buffer  
+        0, 0, 0, 0,														// Accum bits (ignored)  
+        24,																// Number of bits for depth buffer 
+        8,																// Number of bits for stencil buffer  
+        0,																// No auxiliary buffers  
+        PFD_MAIN_PLANE,													// Main layer  
+        0,																// Reserved  
+        0, 0, 0,														// No layer, visible, damage masks  
+    };
+
+	int pixelFormat;
+
+	pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDescriptor);
+	if(pixelFormat == 0)
+	{
+		MessageBox(0, "Choose Pixel Format Failed!", "Error!", MB_OK | MB_ICONEXCLAMATION);
+		return NULL;
+	}
+
+	SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDescriptor);
+
+	auto window = new Window(windowHandle, deviceContext, inputHandler);
 	w = window;
 
 	return window;
@@ -121,6 +155,11 @@ LRESULT Window::HandleMessage(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	}
 	}
 	return result;
+}
+
+HDC Window::GetDeviceContext()
+{
+	return _deviceContext;
 }
 
 bool Window::IsExitRequested()

@@ -6,8 +6,9 @@
 
 using namespace blaze;
 
-Platform::Platform(Window* window)
+Platform::Platform(Window* window, Renderer* renderer)
 	: _window(window)
+	, _renderer(renderer)
 {
 }
 
@@ -18,8 +19,9 @@ Platform::~Platform()
 Platform* Platform::Initialize(int width, int height, const char* title, Input* input)
 {
 	auto window = Window::Initialize(width, height, title, input);
+	auto renderer = Renderer::Initialize(window->GetDeviceContext());
 
-	auto platform = new Platform(window /*device*/);
+	auto platform = new Platform(window, renderer);
 	return platform;
 }
 
@@ -35,11 +37,13 @@ void Platform::OnPreFrame()
 
 void Platform::OnPostFrame()
 {
+	//TODO should swap buffer here
+	SwapBuffers(_window->GetDeviceContext());
 }
 
 void Platform::Render()
 {
-	_window->Render();
+	_renderer->Render();
 }
 
 bool Platform::IsExitRequested()

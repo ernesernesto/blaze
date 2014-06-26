@@ -41,4 +41,4 @@ private:
 
 }
 
-#endif // __MATRIX4F_H__
+#endif // __QUATERNION_H__

@@ -66,7 +66,7 @@ void MainComponent::run()
 			_platform->OnPreFrame();
 			_game->GetInput();
 			_game->Update();
-			_platform->OnPostFrame();
+			//_platform->OnPostFrame();
 
 			if(frameCounter >= 1)
 			{
@@ -80,6 +80,7 @@ void MainComponent::run()
 		{
 			frames++;
 			render();
+			_platform->OnPostFrame();
 			//TODO RENDER PER FRAMETIME
 		}
 		else

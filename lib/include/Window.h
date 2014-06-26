@@ -15,19 +15,18 @@ public:
 	static Window* Initialize(int widht, int height, const char* title, Input* inputHandler);
 	void Render();
 	LRESULT HandleMessage(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-	int GetWidth();
-	int GetHeight();
-	const char* GetTitle();
+	
+	HDC GetDeviceContext();
 
 	bool IsExitRequested();
 
 private:
-	Window(HWND handle, Input* inputHandler);
+	Window(HWND windowHandle, HDC deviceContext, Input* inputHandler);
 	Window(const Window& other);
 
 private:
 	HWND _windowHandle;
+	HDC _deviceContext;
 	Input* _inputHandler;
 	bool _isExitRequested;
 

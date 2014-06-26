@@ -3,6 +3,7 @@
 
 #include "Window.h"
 #include "Input.h"
+#include "Renderer.h"
 
 #ifdef _DEBUG
 #define DEBUG_OUTPUT printf
@@ -16,7 +17,7 @@ namespace blaze
 class Platform
 {
 public:
-	Platform(Window* window);
+	Platform(Window* window, Renderer* renderer);
 	~Platform();
 
 	static Platform* Initialize(int widht, int height, const char* title, Input* input);
@@ -28,7 +29,7 @@ public:
 
 private:
 	Window* _window;
-	//DeviceContext* device
+	Renderer* _renderer;
 	bool _isRunning;
 };
 
