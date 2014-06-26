@@ -37,7 +37,6 @@ void Platform::OnPreFrame()
 
 void Platform::OnPostFrame()
 {
-	//TODO should swap buffer here
 	SwapBuffers(_window->GetDeviceContext());
 }
 
