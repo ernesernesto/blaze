@@ -20,6 +20,7 @@ Platform* Platform::Initialize(int width, int height, const char* title, Input* 
 {
 	auto window = Window::Initialize(width, height, title, input);
 	auto renderer = Renderer::Initialize(window->GetDeviceContext());
+	printf("Renderer Version %s :\n", renderer->GetRendererVersion());
 
 	auto platform = new Platform(window, renderer);
 	return platform;

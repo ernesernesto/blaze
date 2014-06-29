@@ -2,6 +2,7 @@
 #define __RENDERER_H__
 
 #include <Windows.h>
+#include <string>
 
 namespace blaze
 {
@@ -11,6 +12,7 @@ public:
 	~Renderer();
 	static Renderer* Initialize(HDC deviceContext);
 	void Render();
+	const char* GetRendererVersion();
 
 private:
 	Renderer(HDC deviceContext, HGLRC renderContext);

@@ -2,6 +2,7 @@
 #define __GAME_H__
 
 #include "Input.h"
+#include "Mesh.h"
 
 namespace blaze
 {
@@ -12,14 +13,16 @@ public:
 	~Game();
 	static Game* Initialize(Input* input);
 
-	void GetInput();
-	void Update();
+	void OnInput();
+	void OnUpdate();
+	void OnDraw();
+	void OnDestroy();
 
 private:
-	Game(Input* input);
+	Game(Input* input, Mesh* mesh);
 private:
 	Input* _input;
-
+	Mesh* _mesh;
 };
 
 }

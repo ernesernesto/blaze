@@ -64,9 +64,8 @@ void MainComponent::run()
 				Stop();
 
 			_platform->OnPreFrame();
-			_game->GetInput();
-			_game->Update();
-			//_platform->OnPostFrame();
+			_game->OnInput();
+			_game->OnUpdate();
 
 			if(frameCounter >= 1)
 			{
@@ -95,11 +94,11 @@ void MainComponent::run()
 
 void MainComponent::render()
 {
-	//game.render
 	_platform->Render();
+	_game->OnDraw();
 }
 
 void MainComponent::cleanUp()
 {
-	//delete _window;
+	_game->OnDestroy();
 }

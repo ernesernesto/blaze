@@ -4,24 +4,41 @@
 #include "Game.h"
 
 #include "Vector2f.h"
+#include "Vertex.h"
+#include "Shader.h"
+#include "ShaderBuilder.h"
 
 using namespace blaze;
 
-Game::Game(Input* input)
-	:_input(input)
+Game::Game(Input* input, Mesh* mesh)
+	: _input(input)
+	, _mesh(mesh)
 {
 }
+
 Game::~Game()
 {
 }
 
 Game* Game::Initialize(Input* input)
 {
-	auto game = new Game(input);
+	auto mesh = new Mesh();
+	Vertex data[] = 
+	{ 
+		Vector3f(-1.0f, -1.0f, 0.0f),
+		Vector3f(0.0f, 1.0f,  0.0f),
+		Vector3f(1.0f, -1.0f, 0.0f)
+	};
+
+	mesh->AddVertices(data, sizeof(data) / sizeof(Vertex));
+
+	Shader* shader = ShaderBuilder();
+
+	auto game = new Game(input, mesh);
 	return game;
 }
 
-void Game::GetInput()
+void Game::OnInput()
 {
 	if(_input->IsKeyDown(Keys::KEY_A))
 		printf("Button %d pressed! \n", Keys::KEY_A);
@@ -36,6 +53,17 @@ void Game::GetInput()
 	}
 }
 
-void Game::Update()
+void Game::OnUpdate()
 {
+}
+
+void Game::OnDraw()
+{
+	_mesh->Draw();
+}
+
+void Game::OnDestroy()
+{
+	delete _mesh;
+	//TODO check which one should be deleted on this scope
 }

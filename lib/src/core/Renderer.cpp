@@ -37,9 +37,14 @@ void Renderer::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+const char* Renderer::GetRendererVersion()
+{
+	return reinterpret_cast<const char*>(glGetString(GL_VERSION));
+}
+
 void Renderer::initGraphics()
 {
-	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.5f, 0.5f, 1.0f, 1.0f);
 	glFrontFace(GL_CW);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
@@ -47,3 +52,4 @@ void Renderer::initGraphics()
 
 	//TODO Depth clamp for later
 }
+
