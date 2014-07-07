@@ -4,8 +4,8 @@
 
 using namespace blaze;
 
-typedef std::pair<GLenum, std::string> ShaderPair;
-typedef std::pair<GLuint, std::string> AttributePair;
+typedef std::pair<GLenum, const std::string> ShaderPair;
+typedef std::pair<GLuint, const std::string> AttributePair;
 
 
 ShaderBuilder::ShaderBuilder()
@@ -14,25 +14,25 @@ ShaderBuilder::ShaderBuilder()
 {
 }
 
-ShaderBuilder& ShaderBuilder::AddVertexShader(std::string shaderSource)
+ShaderBuilder& ShaderBuilder::AddVertexShader(const std::string& shaderSource)
 {
 	_shaders.push_back(ShaderPair(GL_VERTEX_SHADER, shaderSource));
 	return *this;
 }
 
-ShaderBuilder& ShaderBuilder::AddGeometryShader(std::string shaderSource)
+ShaderBuilder& ShaderBuilder::AddGeometryShader(const std::string& shaderSource)
 {
 	_shaders.push_back(ShaderPair(GL_GEOMETRY_SHADER, shaderSource));
 	return *this;
 }
 
-ShaderBuilder& ShaderBuilder::AddFragmentShader(std::string shaderSource)
+ShaderBuilder& ShaderBuilder::AddFragmentShader(const std::string& shaderSource)
 {
 	_shaders.push_back(ShaderPair(GL_FRAGMENT_SHADER, shaderSource));
 	return *this;
 }
 
-ShaderBuilder& ShaderBuilder::BindAttribute(GLuint location, std::string name)
+ShaderBuilder& ShaderBuilder::BindAttribute(GLuint location, const std::string& name)
 {
 	_attributes.push_back(AttributePair(location, name));
 	return *this;
@@ -59,21 +59,53 @@ Shader* ShaderBuilder::Build()
 		GLuint shaderHandle = glCreateShader(type);
 		glShaderSource(shaderHandle, 1, &source, NULL);
 		glCompileShader(shaderHandle);
-		//if(glGetShaderiv(shader, GL_COMPILE_STATUS))
-		//{
-		//	throw error;
-		//}
+
+		GLint isCompiled = false;
+		glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &isCompiled);
+		if(!isCompiled)
+		{
+			GLint logLength;
+			glGetShaderiv(shaderHandle, GL_INFO_LOG_LENGTH, &logLength);
+
+			char* logInformation = new char[logLength];
+			glGetShaderInfoLog(shaderHandle, logLength, NULL, logInformation);
+			
+			//TODO get shader name for better information
+			printf("Failed compiling shader, %s\n", logInformation);
+			delete logInformation;
+		}
 
 		glAttachShader(shaderProgramHandle, shaderHandle);
 
 		vecShaderHandle.push_back(shaderHandle);
 	}
 
+	for (auto i = _attributes.begin(); i != _attributes.end(); ++i)
+	{
+		GLuint location = (*i).first;
+		const char* attribute = (*i).second.c_str();
+		glBindAttribLocation(shaderProgramHandle, location, attribute);
+	}
+
+	GLint isLinked = false;
 	glLinkProgram(shaderProgramHandle);
-	//TODO check if linking succeess
+
+	glGetProgramiv(shaderProgramHandle, GL_LINK_STATUS, &isLinked);
+	if(!isLinked)
+	{
+		//TODO get info why this failed
+		printf("Failed linking shader program\n");
+	}
 	
+	GLint isValidated = false;
 	glValidateProgram(shaderProgramHandle);
-	//TODO check if validate success
+
+	glGetProgramiv(shaderProgramHandle, GL_VALIDATE_STATUS, &isValidated);
+	if(!isValidated)
+	{
+		//TODO get info why this failed
+		printf("Failed linking shader program\n");	
+	}
 
 	return new Shader(shaderProgramHandle, vecShaderHandle);
 }

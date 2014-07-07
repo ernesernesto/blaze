@@ -15,12 +15,12 @@ class ShaderBuilder
 public:
 	ShaderBuilder();
 
-	ShaderBuilder& AddVertexShader(std::string shaderSource);
-	ShaderBuilder& AddGeometryShader(std::string shaderSource);
-	ShaderBuilder& AddFragmentShader(std::string shaderSource);
+	ShaderBuilder& AddVertexShader(const std::string& shaderSource);
+	ShaderBuilder& AddGeometryShader(const std::string& shaderSource);
+	ShaderBuilder& AddFragmentShader(const std::string& shaderSource);
 
 	//TODO find out how to replace Gl defined types
-	ShaderBuilder& BindAttribute(GLuint location, std::string name);
+	ShaderBuilder& BindAttribute(GLuint location, const std::string& name);
 
 	/*
 	 * All shader creation (AddShader and BindAttribute) should be called consecutively to store shaders information
@@ -33,7 +33,7 @@ private:
 	/*
 	 * Shader type and its source for the "Shader Program" to use
 	*/
-	std::vector< std::pair<GLenum, std::string> > _shaders;
+	std::vector< std::pair<GLenum, const std::string> > _shaders;
 	/*
 	 * Attribute location for the shader and the name to bound to that location
 	*/
