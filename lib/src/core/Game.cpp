@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 #include "Keys.h"
 #include "Game.h"
@@ -32,7 +33,40 @@ Game* Game::Initialize(Input* input)
 
 	mesh->AddVertices(data, sizeof(data) / sizeof(Vertex));
 
-	Shader* shader = ShaderBuilder();
+	const int aVertexPosition = 0;
+
+	std::ifstream vertexShaderFile("res/shaders/glsl/vertex/basicVertex.vs");
+	std::ifstream fragmentShaderFile("res/shaders/glsl/fragment/basicFragment.fs");
+
+	if(!vertexShaderFile.is_open())
+	{
+		//TODO should throw runtime exception here
+		printf("Failed to open shader file!\n");
+	}
+
+	if(!fragmentShaderFile.is_open())
+	{
+		//TODO should throw runtime exception here
+		printf("Failed to open shader file!\n");
+	}
+
+	const std::string vertexShader(
+		(std::istreambuf_iterator<char>(vertexShaderFile)),
+		std::istreambuf_iterator<char>()
+		);
+
+	const std::string fragmentShader(
+		(std::istreambuf_iterator<char>(fragmentShaderFile)),
+		std::istreambuf_iterator<char>()
+		);
+
+	Shader* shader = ShaderBuilder()
+		.AddVertexShader(vertexShader)
+		.AddFragmentShader(fragmentShader)
+		.BindAttribute(aVertexPosition, "aVertexPosition")
+		.Build();
+	
+	shader->Use();
 
 	auto game = new Game(input, mesh);
 	return game;
