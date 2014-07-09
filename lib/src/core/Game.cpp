@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <math.h>
 
 #include "Keys.h"
 #include "Game.h"
@@ -10,6 +11,9 @@
 #include "ShaderBuilder.h"
 
 using namespace blaze;
+
+//TODO think more throughtly about putting Shader global, should it be member instance or not?
+Shader* shader;
 
 Game::Game(Input* input, Mesh* mesh)
 	: _input(input)
@@ -60,7 +64,7 @@ Game* Game::Initialize(Input* input)
 		std::istreambuf_iterator<char>()
 		);
 
-	Shader* shader = ShaderBuilder()
+	shader = ShaderBuilder()
 		.AddVertexShader(vertexShader)
 		.AddFragmentShader(fragmentShader)
 		.BindAttribute(aVertexPosition, "aVertexPosition")
@@ -87,8 +91,13 @@ void Game::OnInput()
 	}
 }
 
+//TODO remove this temp, only for test
+float temp = 0.0f;
 void Game::OnUpdate()
 {
+	temp += 0.0005f;
+	int uniformLocation = shader->GetUniformLocation("uniformPosition");
+	shader->SetUniformf(uniformLocation, (float)abs(sin(temp)));
 }
 
 void Game::OnDraw()
@@ -99,5 +108,6 @@ void Game::OnDraw()
 void Game::OnDestroy()
 {
 	delete _mesh;
+	shader->Delete();
 	//TODO check which one should be deleted on this scope
 }
