@@ -13,7 +13,8 @@
 using namespace blaze;
 
 //TODO think more throughtly about putting Shader global, should it be member instance or not?
-Shader* shader;
+static Shader* shader;
+static Matrix4f* mat;
 
 Game::Game(Input* input, Mesh* mesh)
 	: _input(input)
@@ -72,6 +73,8 @@ Game* Game::Initialize(Input* input)
 	
 	shader->Use();
 
+	mat = new Matrix4f();
+
 	auto game = new Game(input, mesh);
 	return game;
 }
@@ -96,8 +99,13 @@ float temp = 0.0f;
 void Game::OnUpdate()
 {
 	temp += 0.0005f;
+	mat->Translate((float)sin(temp), 0.0f, 0.0f);
+
 	int uniformLocation = shader->GetUniformLocation("uniformPosition");
+	int uniformMatLocation = shader->GetUniformLocation("uniformMat");
+
 	shader->SetUniformf(uniformLocation, (float)abs(sin(temp)));
+	shader->SetUniformMat4f(uniformMatLocation, *mat);
 }
 
 void Game::OnDraw()
@@ -109,5 +117,6 @@ void Game::OnDestroy()
 {
 	delete _mesh;
 	shader->Delete();
+	delete mat;
 	//TODO check which one should be deleted on this scope
 }

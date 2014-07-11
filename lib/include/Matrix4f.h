@@ -15,17 +15,19 @@ public:
 	const float& operator [](int index) const;
 
 	Matrix4f& InitIdentity();
+	Matrix4f& Clear();
+
 	//TODO implement functions mul add sub, etc between matrices
 	Matrix4f& Multiply(const Matrix4f& other);
-	
+	Matrix4f& Translate(float x, float y, float z);
+
 	//TODO implement overload operator
 
-	float* GetMatrix();
+	float* GetValues();
 	float& GetAt(int x, int y);
 
-	Matrix4f& SetMatrix(const float* data);
+	Matrix4f& SetValues(const float* data);
 	Matrix4f& SetAt(int x, int y, float val);
-
 
 private:
 	float _mat[16];

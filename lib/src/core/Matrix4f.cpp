@@ -6,10 +6,7 @@ using namespace blaze;
 
 Matrix4f::Matrix4f()
 {
-	for(int i = 0; i < 16; i ++)
-	{
-		_mat[i] = 0;
-	}
+	InitIdentity();
 }
 
 Matrix4f::Matrix4f(const Matrix4f& other)
@@ -22,7 +19,7 @@ Matrix4f::Matrix4f(const Matrix4f& other)
 
 Matrix4f& Matrix4f::operator = (const Matrix4f& other)
 {
-	return SetMatrix(other._mat);
+	return SetValues(other._mat);
 }
 
 
@@ -41,7 +38,14 @@ Matrix4f& Matrix4f::InitIdentity()
 	memset(this->_mat, 0, 16 * sizeof(float));
 	_mat[0] = float(1);
 	_mat[5] = float(1);
+	_mat[10] = float(1);
 	_mat[15] = float(1);
+	return *this;
+}
+
+Matrix4f& Matrix4f::Clear()
+{
+	memset(this->_mat, 0, 16 * sizeof(float));
 	return *this;
 }
 
@@ -77,7 +81,27 @@ Matrix4f& Matrix4f::Multiply(const Matrix4f& other)
 	return *this;
 }
 
-float* Matrix4f::GetMatrix()
+Matrix4f& Matrix4f::Translate(float x, float y, float z)
+{
+	_mat[3] = x;
+	_mat[7] = y;
+	_mat[11] = z;
+	_mat[15] = 1;
+
+	/*
+	Matrix4f temp(*this);
+
+	_mat[3] = temp[0] * x + temp[4] * y + temp[8] * z;
+	_mat[7] = temp[1] * x + temp[5] * y + temp[9] * z;
+	_mat[11] = temp[2] * x + temp[6] * y + temp[10] * z;
+	_mat[15] = temp[3] * x + temp[7] * y + temp[11] * z;
+	*/
+
+
+	return *this;
+}
+
+float* Matrix4f::GetValues()
 {
 	return _mat;
 }
@@ -87,7 +111,7 @@ float& Matrix4f::GetAt(int x, int y)
 	return _mat[x * 4 + y];
 }
 
-Matrix4f& Matrix4f::SetMatrix(const float* data)
+Matrix4f& Matrix4f::SetValues(const float* data)
 {
 	memcpy(_mat, data, 16 * sizeof(float));
 	return *this;
