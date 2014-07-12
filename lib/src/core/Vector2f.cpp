@@ -44,7 +44,7 @@ float Vector2f::DotProduct(const Vector2f& vec) const
 Vector2f& Vector2f::Normalize()
 {
 	float length = Length();
-	_x  /= length;
+	_x /= length;
 	_y /= length;
 
 	return (*this);

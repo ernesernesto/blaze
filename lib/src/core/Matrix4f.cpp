@@ -1,6 +1,10 @@
 #include <memory>
+#include <vector>
 
 #include "Matrix4f.h"
+
+//TO DO Move define to another place
+#define PI 3.14159265
 
 using namespace blaze;
 
@@ -97,6 +101,48 @@ Matrix4f& Matrix4f::Translate(const Vector3f& translationVector)
 	_mat[14] = translationVector.GetZ();
 
 	return *this;
+}
+
+Matrix4f& Matrix4f::Rotate(float x, float y, float z, float angle)
+{
+	/*
+	txx + c		txy - sz	txz + sy	0
+	txy + sz	ty2 + c		tyz - sx	0	
+	txz - sy	tyz + sx	tzz + c		0	
+	0			0			0			1	
+
+	c = cos tetha	s = sin tetha	t = 1 - cos tetha
+	xyz is unit vector on the axis of rotation
+	*/
+
+	float rad = angle * PI / 180.0f;
+    float sin = sinf(rad);
+    float cos = cosf(rad);
+	
+    float length = sqrtf(x * x + y * y + z * z);
+	x /= length;    y /= length;    z /= length;
+
+	float xx = x * x;	float yy = y * y;	float zz = z * z;
+    float xy = x * y;	float yz = y * z;   float zx = z * x;
+    float sx = sin * x;	float sy = sin * y;	float sz = sin * z;
+    float t = 1.0f - cos;
+
+	Matrix4f rotation;
+	float v[16];
+
+    v[0] = (t * xx) + cos;	v[1] = (t * xy) - sz;	v[2] = (t * zx) + sy;	v[3] = 0.0f;
+    v[4] = (t * xy) + sz;   v[5] = (t * yy) + cos;	v[6] = (t * yz) - sx;	v[7] = 0.0f;
+	v[8] = (t * zx) - sy;   v[9] = (t * yz) + sx;	v[10] = (t * zz) + cos;	v[11] = 0.0f;
+    v[12] = 0.0f;			v[13] = 0.0f;		    v[14] = 0.0f;			v[15] = 1.0f;
+
+	rotation.SetValues(v);
+
+	return this->Multiply(rotation);
+}
+
+Matrix4f& Matrix4f::Rotate(const Vector3f& rotationVector, float angle)
+{
+	return this->Rotate(rotationVector.GetX(), rotationVector.GetY(), rotationVector.GetZ(), angle);
 }
 
 Vector3f Matrix4f::GetTranslationVector() const
