@@ -83,20 +83,9 @@ Matrix4f& Matrix4f::Multiply(const Matrix4f& other)
 
 Matrix4f& Matrix4f::Translate(float x, float y, float z)
 {
-	_mat[3] = x;
-	_mat[7] = y;
-	_mat[11] = z;
-	_mat[15] = 1;
-
-	/*
-	Matrix4f temp(*this);
-
-	_mat[3] = temp[0] * x + temp[4] * y + temp[8] * z;
-	_mat[7] = temp[1] * x + temp[5] * y + temp[9] * z;
-	_mat[11] = temp[2] * x + temp[6] * y + temp[10] * z;
-	_mat[15] = temp[3] * x + temp[7] * y + temp[11] * z;
-	*/
-
+	_mat[12] = x;
+	_mat[13] = y;
+	_mat[14] = z;
 
 	return *this;
 }
