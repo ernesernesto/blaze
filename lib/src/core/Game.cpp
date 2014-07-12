@@ -105,7 +105,7 @@ void Game::OnUpdate()
 	int uniformMatLocation = shader->GetUniformLocation("uniformMat");
 
 	shader->SetUniformf(uniformLocation, (float)abs(sin(temp)));
-	shader->SetUniformMat4f(uniformMatLocation, *mat);
+	shader->SetUniformMat4f(uniformMatLocation, 1, *mat);
 }
 
 void Game::OnDraw()

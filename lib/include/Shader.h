@@ -27,7 +27,7 @@ public:
 	void SetUniformi(GLint location, int value);
 	void SetUniformf(GLint location, float value);
 	void SetUniformVec3f(GLint location, Vector3f& vec);
-	void SetUniformMat4f(GLint location, Matrix4f& mat);
+	void SetUniformMat4f(GLint location, GLsizei count, Matrix4f& mat);
 
 private:
 	GLuint _programHandle;

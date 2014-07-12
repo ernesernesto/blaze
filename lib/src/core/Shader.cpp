@@ -46,8 +46,8 @@ void Shader::SetUniformVec3f(GLint location, Vector3f& vec)
 }
 
 //TODO change return values not to use opengl specific type
-void Shader::SetUniformMat4f(GLint location, Matrix4f& mat)
+void Shader::SetUniformMat4f(GLint location, GLsizei count, Matrix4f& mat)
 {
 	//TODO check the correct param, hardcoded second param into 1
-	glUniformMatrix4fv(location, 1, GL_FALSE, mat.GetValues());
+	glUniformMatrix4fv(location, count, GL_FALSE, mat.GetValues());
 }
