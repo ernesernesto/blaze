@@ -1,6 +1,8 @@
 #ifndef __MATRIX4F_H__
 #define __MATRIX4F_H__
 
+#include "Vector3f.h"
+
 namespace blaze
 {
 
@@ -20,10 +22,12 @@ public:
 	//TODO implement functions mul add sub, etc between matrices
 	Matrix4f& Multiply(const Matrix4f& other);
 	Matrix4f& Translate(float x, float y, float z);
+	Matrix4f& Translate(const Vector3f& translationVector);
 
+	Vector3f GetTranslationVector() const;
 	//TODO implement overload operator
 
-	float* GetValues();
+	const float* GetValues() const;
 	float& GetAt(int x, int y);
 
 	Matrix4f& SetValues(const float* data);

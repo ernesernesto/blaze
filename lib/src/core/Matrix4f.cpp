@@ -90,7 +90,21 @@ Matrix4f& Matrix4f::Translate(float x, float y, float z)
 	return *this;
 }
 
-float* Matrix4f::GetValues()
+Matrix4f& Matrix4f::Translate(const Vector3f& translationVector)
+{
+	_mat[12] = translationVector.GetX();
+	_mat[13] = translationVector.GetY();
+	_mat[14] = translationVector.GetZ();
+
+	return *this;
+}
+
+Vector3f Matrix4f::GetTranslationVector() const
+{
+	return Vector3f(_mat[12], _mat[13], _mat[14]);
+}
+
+const float* Matrix4f::GetValues() const
 {
 	return _mat;
 }

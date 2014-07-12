@@ -99,7 +99,7 @@ float temp = 0.0f;
 void Game::OnUpdate()
 {
 	temp += 0.0005f;
-	mat->Translate((float)sin(temp), 0.0f, 0.0f);
+	mat->Translate(Vector3f((float)sin(temp), 0.0f, 0.0f));
 
 	int uniformLocation = shader->GetUniformLocation("uniformPosition");
 	int uniformMatLocation = shader->GetUniformLocation("uniformMat");
