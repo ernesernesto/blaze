@@ -33,10 +33,19 @@ Game* Game::Initialize(Input* input)
 	{ 
 		Vector3f(-1.0f, -1.0f, 0.0f),
 		Vector3f(0.0f, 1.0f,  0.0f),
-		Vector3f(1.0f, -1.0f, 0.0f)
+		Vector3f(1.0f, -1.0f, 0.0f),
+		Vector3f(0.0f, -1.0f, 1.0f)
 	};
 
-	mesh->AddVertices(data, sizeof(data) / sizeof(Vertex));
+	GLuint indices[] = 
+	{
+		0, 1, 3,			  
+		3, 1, 2,
+		2, 1, 0,
+		0, 2, 3
+	};
+	
+	mesh->AddVertices(data, sizeof(data) / sizeof(Vertex), indices, sizeof(indices) / sizeof(GLuint));
 
 	const int aVertexPosition = 0;
 
@@ -74,7 +83,7 @@ Game* Game::Initialize(Input* input)
 	shader->Use();
 
 	mat = new Matrix4f();
-	mat->Scale(0.5f, 0.5f, 1.0f);
+	mat->Scale(0.75f, 0.75f, 1.0f);
 
 	auto game = new Game(input, mesh);
 	return game;
@@ -102,7 +111,7 @@ void Game::OnUpdate()
 	temp += 0.0005f;
 	float sinTemp = (float)sin(temp);
 	mat->Translate(Vector3f(sinTemp, 0.0f, 0.0f));
-	mat->Rotate(0.0f, 0.0f, sinTemp, 0.05f);
+	mat->Rotate(Vector3f(0.0f, sinTemp, 0.0f), 0.05f);
 
 	int uniformLocation = shader->GetUniformLocation("uniformPosition");
 	int uniformMatLocation = shader->GetUniformLocation("uniformMat");

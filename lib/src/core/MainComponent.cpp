@@ -67,6 +67,8 @@ void MainComponent::run()
 			_game->OnInput();
 			_game->OnUpdate();
 
+			int test = 0;
+
 			if(frameCounter >= 1)
 			{
 				DEBUG_OUTPUT("%d\n", frames);

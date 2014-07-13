@@ -11,12 +11,16 @@ class Mesh
 {
 public:
 	Mesh();
-	void AddVertices(Vertex* vertices, int vertexNumber);
+
+	//TODO change param not to use opengl specific type
+	void AddVertices(Vertex* vertices, int vertexCount, GLuint* indices, int indicesCount);
 	void Draw();
 
 private:
+	//TODO change param not to use opengl specific type
 	//Only use one vbo for now, this will be used to store vertices data
-	GLuint _vbo[1];
+	GLuint _vbo;
+	GLuint _ibo;
 	int _size;
 };
 
