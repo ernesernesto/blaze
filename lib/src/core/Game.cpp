@@ -1,5 +1,3 @@
-#include <iostream>
-#include <fstream>
 #include <math.h>
 
 #include "Keys.h"
@@ -9,6 +7,7 @@
 #include "Vertex.h"
 #include "Shader.h"
 #include "ShaderBuilder.h"
+#include "ResourceLoader.h"
 
 using namespace blaze;
 
@@ -44,35 +43,14 @@ Game* Game::Initialize(Input* input)
 		2, 1, 0,
 		0, 2, 3
 	};
-	
+	auto meshInfo = ResourceLoader::LoadMeshFromFile("res/mesh/cube.obj");
+
 	mesh->AddVertices(data, sizeof(data) / sizeof(Vertex), indices, sizeof(indices) / sizeof(GLuint));
 
 	const int aVertexPosition = 0;
 
-	std::ifstream vertexShaderFile("res/shaders/glsl/vertex/basicVertex.vs");
-	std::ifstream fragmentShaderFile("res/shaders/glsl/fragment/basicFragment.fs");
-
-	if(!vertexShaderFile.is_open())
-	{
-		//TODO should throw runtime exception here
-		printf("Failed to open shader file!\n");
-	}
-
-	if(!fragmentShaderFile.is_open())
-	{
-		//TODO should throw runtime exception here
-		printf("Failed to open shader file!\n");
-	}
-
-	const std::string vertexShader(
-		(std::istreambuf_iterator<char>(vertexShaderFile)),
-		std::istreambuf_iterator<char>()
-		);
-
-	const std::string fragmentShader(
-		(std::istreambuf_iterator<char>(fragmentShaderFile)),
-		std::istreambuf_iterator<char>()
-		);
+	const std::string vertexShader = ResourceLoader::LoadShader("res/shaders/glsl/vertex/basicVertex.vs");
+	const std::string fragmentShader = ResourceLoader::LoadShader("res/shaders/glsl/fragment/basicFragment.fs");
 
 	shader = ShaderBuilder()
 		.AddVertexShader(vertexShader)
