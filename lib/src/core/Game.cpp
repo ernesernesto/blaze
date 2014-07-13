@@ -74,6 +74,7 @@ Game* Game::Initialize(Input* input)
 	shader->Use();
 
 	mat = new Matrix4f();
+	mat->Scale(0.5f, 0.5f, 1.0f);
 
 	auto game = new Game(input, mesh);
 	return game;
@@ -99,8 +100,9 @@ float temp = 0.0f;
 void Game::OnUpdate()
 {
 	temp += 0.0005f;
-	mat->Translate(Vector3f((float)sin(temp), 0.0f, 0.0f));
-	mat->Rotate(0.0f, 0.0f, (float)sin(temp), 0.05f);
+	float sinTemp = (float)sin(temp);
+	mat->Translate(Vector3f(sinTemp, 0.0f, 0.0f));
+	mat->Rotate(0.0f, 0.0f, sinTemp, 0.05f);
 
 	int uniformLocation = shader->GetUniformLocation("uniformPosition");
 	int uniformMatLocation = shader->GetUniformLocation("uniformMat");

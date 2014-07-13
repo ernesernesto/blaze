@@ -145,6 +145,32 @@ Matrix4f& Matrix4f::Rotate(const Vector3f& rotationVector, float angle)
 	return this->Rotate(rotationVector.GetX(), rotationVector.GetY(), rotationVector.GetZ(), angle);
 }
 
+Matrix4f& Matrix4f::Scale(float x, float y, float z)
+{
+	_mat[0] *= x;
+	_mat[1] *= y;
+	_mat[2] *= z;
+				
+	_mat[4] *= x;
+	_mat[5] *= y;
+	_mat[6] *= z;
+				
+	_mat[8] *= x;
+	_mat[9] *= y;
+	_mat[10] *= z;
+				
+	_mat[12] *= x;
+	_mat[13] *= y;
+	_mat[14] *= z;
+	return *this;
+}
+
+Matrix4f& Matrix4f::Scale(const Vector3f& scalingVector)
+{
+	return this->Scale(scalingVector.GetX(), scalingVector.GetY(), scalingVector.GetZ());
+}
+
+
 Vector3f Matrix4f::GetTranslationVector() const
 {
 	return Vector3f(_mat[12], _mat[13], _mat[14]);
