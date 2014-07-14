@@ -38,11 +38,8 @@ public:
 
 	//TODO implement functions mul add sub, etc between matrices
 	Matrix4f& Multiply(const Matrix4f& other);
-	Matrix4f& Translate(float x, float y, float z);
 	Matrix4f& Translate(const Vector3f& translationVector);
-	Matrix4f& Rotate(float x, float y, float z, float angle);
 	Matrix4f& Rotate(const Vector3f& rotationVector, float angle);
-	Matrix4f& Scale(float x, float y, float z);
 	Matrix4f& Scale(const Vector3f& scalingVector);
 
 	Vector3f GetTranslationVector() const;

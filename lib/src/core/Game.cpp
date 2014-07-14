@@ -61,7 +61,7 @@ Game* Game::Initialize(Input* input)
 	shader->Use();
 
 	mat = new Matrix4f();
-	mat->Scale(0.75f, 0.75f, 1.0f);
+	mat->Scale(Vector3f(.75f, 0.75f, 1.0f));
 
 	auto game = new Game(input, mesh);
 	return game;
