@@ -8,13 +8,16 @@
 namespace blaze
 {
 
-typedef std::pair<Vertex*, GLuint*> MeshInfo;
-
 class ResourceLoader
 {
 public:
 	static const std::string LoadShader(const std::string filename);
-	static std::string LoadMeshFromFile(const std::string filename);
+	static Mesh* LoadMeshFromFile(const std::string filename);
+private:
+	/*
+	 * Tokenize input string into parameters delimited by whitespace
+	*/
+	static void tokenizeString(const char* str, std::vector<std::string>& tokens);
 };
 
 }
