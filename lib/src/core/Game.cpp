@@ -27,32 +27,8 @@ Game::~Game()
 
 Game* Game::Initialize(Input* input)
 {	
-	auto mesh = new Mesh();
+	auto mesh = Mesh::Initialize("res/mesh/cube.obj");
 	
-	std::vector<Vertex> data;
-	data.push_back(Vertex(Vector3f(-1.0f, -1.0f, 0.0f)));
-	data.push_back(Vertex(Vector3f(0.0f, 1.0f, 0.0f)));
-	data.push_back(Vertex(Vector3f(1.0f, -1.0f, 0.0f)));
-	data.push_back(Vertex(Vector3f(0.0f, -1.0f, 1.0f)));
-	
-	std::vector<GLuint> indices;
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(3);
-	indices.push_back(3);
-	indices.push_back(1);
-	indices.push_back(2);
-	indices.push_back(2);
-	indices.push_back(1);
-	indices.push_back(0);
-	indices.push_back(0);
-	indices.push_back(2);
-	indices.push_back(3);
-
-	auto meshInfo = ResourceLoader::LoadMeshFromFile("res/mesh/cube.obj");
-
-	mesh->AddVertices(data, data.size(), indices, indices.size());
-
 	const int aVertexPosition = 0;
 
 	const std::string vertexShader = ResourceLoader::LoadShader("res/shaders/glsl/vertex/basicVertex.vs");
@@ -95,7 +71,7 @@ void Game::OnUpdate()
 	temp += 0.0005f;
 	float sinTemp = (float)sin(temp);
 	mat->Translate(Vector3f(sinTemp, 0.0f, 0.0f));
-	mat->Rotate(Vector3f(0.0f, sinTemp, 0.0f), 0.05f);
+	mat->Rotate(Vector3f(0.1f, 0.3f, 0.2f), 0.05f);
 
 	int uniformLocation = shader->GetUniformLocation("uniformPosition");
 	int uniformMatLocation = shader->GetUniformLocation("uniformMat");
