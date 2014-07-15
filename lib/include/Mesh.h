@@ -1,6 +1,7 @@
 #ifndef __MESH_H__
 #define __MESH_H__
 
+#include <vector>
 #include <GL/glew.h>
 #include "Vertex.h"
 
@@ -13,7 +14,8 @@ public:
 	Mesh();
 
 	//TODO change param not to use opengl specific type
-	void AddVertices(Vertex* vertices, int vertexCount, GLuint* indices, int indicesCount);
+	void AddVertices(std::vector<Vertex> vertices, int vertexCount, std::vector<GLuint> indices, int indicesCount);
+
 	void Draw();
 
 private:

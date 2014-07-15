@@ -12,15 +12,16 @@ Mesh::Mesh()
 }
 
 //TODO change param not to use opengl specific type
-void Mesh::AddVertices(Vertex* vertices, int vertexCount, GLuint* indices, int indicesCount)
+void Mesh::AddVertices(std::vector<Vertex> vertices, int vertexCount, std::vector<GLuint> indices, int indicesCount)
 {
 	_size = vertexCount * Vertex::SIZE;
+
 	//TODO move all gl extensions calls to another place, so I could use another graphics API
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferData(GL_ARRAY_BUFFER, _size * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _size * sizeof(GLfloat), &vertices.at(0), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesCount * sizeof(GLuint), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesCount * sizeof(GLuint), &indices.at(0), GL_STATIC_DRAW);
 
 }
 

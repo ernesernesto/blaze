@@ -26,26 +26,32 @@ Game::~Game()
 }
 
 Game* Game::Initialize(Input* input)
-{
+{	
 	auto mesh = new Mesh();
-	Vertex data[] = 
-	{ 
-		Vector3f(-1.0f, -1.0f, 0.0f),
-		Vector3f(0.0f, 1.0f,  0.0f),
-		Vector3f(1.0f, -1.0f, 0.0f),
-		Vector3f(0.0f, -1.0f, 1.0f)
-	};
+	
+	std::vector<Vertex> data;
+	data.push_back(Vertex(Vector3f(-1.0f, -1.0f, 0.0f)));
+	data.push_back(Vertex(Vector3f(0.0f, 1.0f, 0.0f)));
+	data.push_back(Vertex(Vector3f(1.0f, -1.0f, 0.0f)));
+	data.push_back(Vertex(Vector3f(0.0f, -1.0f, 1.0f)));
+	
+	std::vector<GLuint> indices;
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(3);
+	indices.push_back(3);
+	indices.push_back(1);
+	indices.push_back(2);
+	indices.push_back(2);
+	indices.push_back(1);
+	indices.push_back(0);
+	indices.push_back(0);
+	indices.push_back(2);
+	indices.push_back(3);
 
-	GLuint indices[] = 
-	{
-		0, 1, 3,			  
-		3, 1, 2,
-		2, 1, 0,
-		0, 2, 3
-	};
 	auto meshInfo = ResourceLoader::LoadMeshFromFile("res/mesh/cube.obj");
 
-	mesh->AddVertices(data, sizeof(data) / sizeof(Vertex), indices, sizeof(indices) / sizeof(GLuint));
+	mesh->AddVertices(data, data.size(), indices, indices.size());
 
 	const int aVertexPosition = 0;
 
