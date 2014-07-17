@@ -57,11 +57,16 @@ Mesh* ResourceLoader::LoadMeshFromFile(const std::string filename)
 			printf("read a normal %s \n", line.c_str());
 		else if(type == "f")
 		{
+			GLuint ind[3];
+			int count = std::sscanf(tokens.at(1).c_str(), "%d/%d/%d", &ind[0], &ind[1], &ind[2]);
+			/*
 			indices.push_back(atoi(tokens.at(1).c_str()) - 1);
 			indices.push_back(atoi(tokens.at(2).c_str()) - 1);
 			indices.push_back(atoi(tokens.at(3).c_str()) - 1);
-
-			printf("read a face %s \n", line.c_str());
+			*/
+			indices.push_back(ind[0] - 1);
+			indices.push_back(ind[1] - 1);
+			indices.push_back(ind[2] - 1);
 		}
 		else
 			printf("read something else %s \n", line.c_str());
@@ -73,6 +78,15 @@ Mesh* ResourceLoader::LoadMeshFromFile(const std::string filename)
 
 void ResourceLoader::tokenizeString(const char* str, std::vector<std::string>& tokens)
 {
+	/*
+	 * TODO Fix Bug for edge case
+	 * consider file that is read have two spaces after the type
+	 * v  0.000000 1.000000 0.500000
+	 *  ^^ two spaces would lead to bad tokens
+	 * also consider trailing spaces after a line
+	 * v 0.000000 1.000000 0.500000 
+	 *                             ^^ would made token size larger than it should be
+	*/
 	do
 	{
 		const char *begin = str;
