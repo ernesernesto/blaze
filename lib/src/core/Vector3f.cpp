@@ -28,27 +28,21 @@ Vector3f::Vector3f(const Vector3f& other)
 {
 }
 
-Vector3f& Vector3f::operator = (const Vector3f& other)
-{
-	return SetWithVector(other);
-}
-
 float Vector3f::Length() const 
 {
 	return sqrt(_x * _x + _y * _y + _z * _z);
 }
 
-float Vector3f::DotProduct(const Vector3f& vec) const
+float Vector3f::DotProduct(const Vector3f& other) const
 {
-	return _x * vec.GetX() + _y * vec.GetY() + _z * vec.GetZ();
+	return _x * other._x + _y * other._y + _z * other._z;
 }
 
-Vector3f Vector3f::CrossProduct(const Vector3f& vec) const
+Vector3f Vector3f::CrossProduct(const Vector3f& other) const
 {
-	float x = _y * vec.GetZ() - _z * vec.GetY();
-	float y = _z * vec.GetX() - _x * vec.GetZ();
-	float z = _z * vec.GetY() - _y * vec.GetX();
-	return Vector3f(x, y, z);
+	return Vector3f(_y * other._z - _z * other._y, 
+					_z * other._x - _x * other._z, 
+					_z * other._y - _y * other._x);
 }
 
 Vector3f& Vector3f::Normalize()
@@ -58,7 +52,7 @@ Vector3f& Vector3f::Normalize()
 	_y /= length;
 	_z /= length;
 
-	return (*this);
+	return *this;
 }
 
 Vector3f& Vector3f::Rotate(float degree)
@@ -83,115 +77,73 @@ const float Vector3f::GetZ() const
 	return _z;
 }
 
-Vector3f& Vector3f::SetX(float x)
+Vector3f Vector3f::operator - ()
 {
-	_x = x;
-	return *this;
+	return Vector3f(-_x, -_y, -_z);
 }
 
-Vector3f& Vector3f::SetY(float y)
+Vector3f Vector3f::operator + (const Vector3f& other)
 {
-	_y = y;
-	return *this;
+	return Vector3f(_x + other._x, _y + other._y, _z + other._z);
 }
 
-Vector3f& Vector3f::SetZ(float z)
-{
-	_z = z;
-	return *this;
-}
-
-Vector3f& Vector3f::SetXYZ(float x, float y, float z)
-{
-	_x = x;
-	_y = y;
-	_z = z;
-	return *this;
-}
-
-Vector3f& Vector3f::SetWithValue(float val)
-{
-	_x = val;
-	_y = val;
-	_z = val;
-	return *this;
-}
-
-Vector3f& Vector3f::SetWithVector(const Vector3f& vector)
-{
-	_x = vector._x;
-	_y = vector._y;
-	_z = vector._z;
-	return *this;
-}
-
-Vector3f Vector3f::ToNegatve() const
-{
-	return Vector3f(-GetX(), -GetY(), -GetZ());
-}
-
-Vector3f& Vector3f::AddWithValue(const float val)
-{
-	_x += val;
-	_y += val;
-	_z += val;
-	return *this;
-}
-
-Vector3f& Vector3f::AddWithVector(const Vector3f& other)
+Vector3f& Vector3f::operator += (const Vector3f& other)
 {
 	_x += other._x;
 	_y += other._y;
 	_z += other._z;
+
 	return *this;
 }
 
-Vector3f& Vector3f::SubWithValue(const float val)
+Vector3f Vector3f::operator - (const Vector3f& other)
 {
-	_x -= val;
-	_y -= val;
-	_z -= val;
-	return *this;
+	return Vector3f(_x - other._x, _y - other._y, _z - other._z);
 }
 
-Vector3f& Vector3f::SubWithVector(const Vector3f& other)
+Vector3f& Vector3f::operator -= (const Vector3f& other)
 {
 	_x -= other._x;
 	_y -= other._y;
 	_z -= other._z;
+
 	return *this;
 }
 
-Vector3f& Vector3f::MulWithValue(const float val)
+Vector3f Vector3f::operator * (float value)
 {
-	_x *= val;
-	_y *= val;
-	_z *= val;
-	return *this;
+	return Vector3f(_x * value, _y * value, _z * value);
 }
 
-Vector3f& Vector3f::MulWithVector(const Vector3f& other)
+Vector3f& Vector3f::operator *= (float value)
 {
-	_x *= other._x;
-	_y *= other._y;
-	_z *= other._z;
+	_x *= value;
+	_y *= value;
+	_z *= value;
+
 	return *this;
 }
 
-Vector3f& Vector3f::DivWithValue(const float val)
+Vector3f Vector3f::operator / (float value)
 {
-	_x /= val;
-	_y /= val;
-	_z /= val;
-	return *this;
+	return Vector3f(_x / value, _y / value, _z / value);
 }
 
-Vector3f& Vector3f::DivWithVector(const Vector3f& other)
+Vector3f& Vector3f::operator /= (float value)
 {
-	_x /= other._x;
-	_y /= other._y;
-	_z /= other._z;
+	_x /= value;
+	_y /= value;
+	_z /= value;
+
 	return *this;
 }
 
-	
+Vector3f& Vector3f::operator = (const Vector3f& other)
+{
+	_x = other._x;
+	_y = other._y;
+	_z = other._z;
+
+	return *this;
+}
+
