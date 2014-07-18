@@ -77,12 +77,12 @@ const float Vector3f::GetZ() const
 	return _z;
 }
 
-Vector3f Vector3f::operator - ()
+Vector3f Vector3f::operator - () const
 {
 	return Vector3f(-_x, -_y, -_z);
 }
 
-Vector3f Vector3f::operator + (const Vector3f& other)
+Vector3f Vector3f::operator + (const Vector3f& other) const
 {
 	return Vector3f(_x + other._x, _y + other._y, _z + other._z);
 }
@@ -96,7 +96,7 @@ Vector3f& Vector3f::operator += (const Vector3f& other)
 	return *this;
 }
 
-Vector3f Vector3f::operator - (const Vector3f& other)
+Vector3f Vector3f::operator - (const Vector3f& other) const
 {
 	return Vector3f(_x - other._x, _y - other._y, _z - other._z);
 }
@@ -110,7 +110,7 @@ Vector3f& Vector3f::operator -= (const Vector3f& other)
 	return *this;
 }
 
-Vector3f Vector3f::operator * (float value)
+Vector3f Vector3f::operator * (float value) const
 {
 	return Vector3f(_x * value, _y * value, _z * value);
 }
@@ -124,7 +124,7 @@ Vector3f& Vector3f::operator *= (float value)
 	return *this;
 }
 
-Vector3f Vector3f::operator / (float value)
+Vector3f Vector3f::operator / (float value) const
 {
 	return Vector3f(_x / value, _y / value, _z / value);
 }

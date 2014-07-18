@@ -63,12 +63,12 @@ const float Vector2f::GetY() const
 	return _y;
 }
 
-Vector2f Vector2f::operator - ()
+Vector2f Vector2f::operator - () const
 {
 	return Vector2f(-_x, -_y);
 }
 
-Vector2f Vector2f::operator + (const Vector2f& other)
+Vector2f Vector2f::operator + (const Vector2f& other) const
 {
 	return Vector2f(_x + other._x, _y + other._y);
 }
@@ -81,7 +81,7 @@ Vector2f& Vector2f::operator += (const Vector2f& other)
 	return *this;
 }
 
-Vector2f Vector2f::operator - (const Vector2f& other)
+Vector2f Vector2f::operator - (const Vector2f& other) const
 {
 	return Vector2f(_x - other._x, _y - other._y);
 }
@@ -94,7 +94,7 @@ Vector2f& Vector2f::operator -= (const Vector2f& other)
 	return *this;
 }
 
-Vector2f Vector2f::operator * (float value)
+Vector2f Vector2f::operator * (float value) const
 {
 	return Vector2f(_x * value, _y * value);
 }
@@ -107,7 +107,7 @@ Vector2f& Vector2f::operator *= (float value)
 	return *this;
 }
 
-Vector2f Vector2f::operator / (float value)
+Vector2f Vector2f::operator / (float value) const
 {
 	return Vector2f(_x / value, _y / value);
 }

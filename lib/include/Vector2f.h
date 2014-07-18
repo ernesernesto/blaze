@@ -22,18 +22,18 @@ public:
 	/*
 	 * Helper methods needed for calculation
 	*/
-	Vector2f operator - ();
+	Vector2f operator - () const;
 
-	Vector2f operator + (const Vector2f& vec);
+	Vector2f operator + (const Vector2f& vec) const;
 	Vector2f& operator += (const Vector2f& vec);
 
-	Vector2f operator - (const Vector2f& vec);
+	Vector2f operator - (const Vector2f& vec) const;
 	Vector2f& operator -= (const Vector2f& vec);
 
-	Vector2f operator * (float value);
+	Vector2f operator * (float value) const;
 	Vector2f& operator *= (float value);
 	
-	Vector2f operator / (float value);
+	Vector2f operator / (float value) const;
 	Vector2f& operator /= (float value);
 	
 	Vector2f& operator = (const Vector2f& other);

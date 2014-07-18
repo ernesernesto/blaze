@@ -24,18 +24,18 @@ public:
 	/*
 	 * Helper methods needed for calculation
 	*/
-	Vector3f operator - ();
+	Vector3f operator - () const;
 
-	Vector3f operator + (const Vector3f& vec);
+	Vector3f operator + (const Vector3f& vec) const;
 	Vector3f& operator += (const Vector3f& vec);
 
-	Vector3f operator - (const Vector3f& vec);
+	Vector3f operator - (const Vector3f& vec) const;
 	Vector3f& operator -= (const Vector3f& vec);
 
-	Vector3f operator * (float value);
+	Vector3f operator * (float value) const;
 	Vector3f& operator *= (float value);
 	
-	Vector3f operator / (float value);
+	Vector3f operator / (float value) const;
 	Vector3f& operator /= (float value);
 	
 	Vector3f& operator = (const Vector3f& other);
